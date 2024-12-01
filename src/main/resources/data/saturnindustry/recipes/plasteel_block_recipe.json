@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###",
+        "###",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "saturnindustry:plasteel"
+        }
+    },
+    "result": {
+        "item": "saturnindustry:plasteel_block",
+        "count": 1
+    }
+}

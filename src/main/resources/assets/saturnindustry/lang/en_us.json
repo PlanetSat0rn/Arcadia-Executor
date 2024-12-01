@@ -1,0 +1,10 @@
+{
+  "item.saturnindustry.plasteel_mixture": "Plasteel Mixture",
+  "item.saturnindustry.plasteel": "Plasteel",
+  "item.saturnindustry.lithium": "Lithium",
+
+  "itemGroup.saturnindustry.industrygroup": "Saturn Industry",
+
+  "block.saturnindustry.plasteel_block": "Block of Plasteel",
+  "block.saturnindustry.blank_mechanism": "Blank Mechanism"
+}

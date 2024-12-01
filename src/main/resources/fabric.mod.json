@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "saturn-industry",
+	"id": "saturnindustry",
 	"version": "${version}",
 	"name": "Saturn Industry",
 	"description": "This is an example description! Tell everyone what your mod is about!",
@@ -12,7 +12,7 @@
 		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/saturn-industry/icon.png",
+	"icon": "assets/saturnindustry/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
@@ -26,9 +26,9 @@
 		]
 	},
 	"mixins": [
-		"saturn-industry.mixins.json",
+		"saturnindustry.mixins.json",
 		{
-			"config": "saturn-industry.client.mixins.json",
+			"config": "saturnindustry.client.mixins.json",
 			"environment": "client"
 		}
 	],

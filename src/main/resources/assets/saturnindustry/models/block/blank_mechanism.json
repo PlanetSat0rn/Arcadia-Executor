@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "saturnindustry:block/blank_mechanism"
+  }
+}
