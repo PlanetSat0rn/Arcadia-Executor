@@ -9,14 +9,18 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import planetsaturn.industry.Item.ModItemGroup;
 import planetsaturn.industry.SaturnIndustry;
+import planetsaturn.industry.block.custom.CrucibleBlock;
 
 public class ModBlocks {
 
     public static final Block PLASTEEL_BLOCK = registerBlock("plasteel_block",
-            new Block(FabricBlockSettings.of(Material.METAL).strength(4f).requiresTool()), ModItemGroup.INDUSTRY);
+            new Block(FabricBlockSettings.of(Material.METAL).strength(4f).requiresTool()), ModItemGroup.INDUSTRYBLOCKS);
 
     public static final Block BLANK_MECHANISM = registerBlock("blank_mechanism",
-            new Block(FabricBlockSettings.of(Material.METAL).strength(4f).requiresTool()), ModItemGroup.INDUSTRY);
+            new Block(FabricBlockSettings.of(Material.METAL).strength(4f).requiresTool()), ModItemGroup.INDUSTRYBLOCKS);
+
+    public static final Block CRUCIBLE = registerBlock("crucible",
+            new CrucibleBlock(FabricBlockSettings.of(Material.METAL).strength(4f).requiresTool()), ModItemGroup.INDUSTRYBLOCKS);
 
     private static Block registerBlock(String name, Block block, ItemGroup tab) {
         registerBlockItem(name,block,tab);

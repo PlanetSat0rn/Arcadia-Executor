@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "saturnindustry:plasteel_block",
-    "saturnindustry:blank_mechanism"
+    "saturnindustry:blank_mechanism",
+    "saturnindustry:crucible"
   ]
 }

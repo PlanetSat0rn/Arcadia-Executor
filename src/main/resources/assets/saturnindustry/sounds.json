@@ -1,0 +1,11 @@
+{
+  "wrench_turn": {
+    "subtitle": "subtitles.saturnindustry.wrench_turn",
+    "sounds": [
+      "saturnindustry:wrench_turn1",
+      "saturnindustry:wrench_turn2",
+      "saturnindustry:wrench_turn3"
+    ]
+  }
+}
+

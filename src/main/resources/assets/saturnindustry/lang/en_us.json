@@ -1,11 +1,17 @@
 {
   "item.saturnindustry.plasteel_mixture": "Plasteel Mixture",
-  "item.saturnindustry.plasteel": "Plasteel",
+  "item.saturnindustry.plasteel": "Plasteel Alloy",
   "item.saturnindustry.lithium": "Lithium",
   "item.saturnindustry.wrench": "Wrench",
 
-  "itemGroup.saturnindustry.industrygroup": "Saturn Industry",
+  "itemGroup.saturnindustry.industry_group": "Saturn Industry Items",
+  "itemGroup.saturnindustry.industry_block_group": "Saturn Industry Blocks",
 
   "block.saturnindustry.plasteel_block": "Block of Plasteel",
-  "block.saturnindustry.blank_mechanism": "Blank Mechanism"
+  "block.saturnindustry.blank_mechanism": "Blank Mechanism",
+  "block.saturnindustry.crucible": "Crucible",
+
+  "subtitles.saturnindustry.wrench_turn": "Wrench Turn",
+
+  "container.saturnindustry.crucible": "Crucible"
 }

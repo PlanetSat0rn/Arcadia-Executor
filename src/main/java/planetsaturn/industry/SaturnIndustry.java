@@ -6,6 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import planetsaturn.industry.Item.ModItems;
 import planetsaturn.industry.block.ModBlocks;
+import planetsaturn.industry.block.entity.ModBlockEntities;
+import planetsaturn.industry.screen.ModScreenHandlers;
+import planetsaturn.industry.sound.ModSounds;
 
 public class SaturnIndustry implements ModInitializer {
 	public static final String MOD_ID = "saturnindustry";
@@ -24,5 +27,8 @@ public class SaturnIndustry implements ModInitializer {
 		LOGGER.info("Hello Fabric world!");
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();
+		ModSounds.registerModSounds();
+		ModBlockEntities.registerModBlockEntities();
+		ModScreenHandlers.registerModScreenHandlers();
 	}
 }

@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "cBc",
+        "RSF",
+        "cBc"
+    ],
+    "key": {
+        "c": {
+            "item": "minecraft:copper_ingot"
+        },
+        "B": {
+            "item": "minecraft:bucket"
+        },
+        "R": {
+            "item": "minecraft:redstone"
+        },
+        "S": {
+            "item": "saturnindustry:blank_mechanism"
+        },
+        "F": {
+            "item": "minecraft:furnace"
+        }
+    },
+    "result": {
+        "item": "saturnindustry:crucible",
+        "count": 1
+    }
+}
