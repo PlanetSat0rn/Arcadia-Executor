@@ -43,7 +43,7 @@ public class CrucibleBlockEntity extends BlockEntity implements NamedScreenHandl
     private int maxFuelTime = 0;
     private int maxSpeedup = 20;
 
-    private HashMap<Item, Item> getRecipeMap() {
+    private HashMap<Item, Item> RecipeMap() {
         return new HashMap<Item, Item>() {
             {
                 put(Items.RAW_IRON, Items.IRON_INGOT);
@@ -191,7 +191,7 @@ public class CrucibleBlockEntity extends BlockEntity implements NamedScreenHandl
             int count = entity.getStack(1).getCount();
             Item item = entity.getStack(0).getItem();
             entity.removeStack(0,1);
-            entity.setStack(1,new ItemStack(entity.getRecipeMap().get(item), count+1));
+            entity.setStack(1,new ItemStack(entity.RecipeMap().get(item), count+1));
             entity.resetProgress(entity);
         }
     }
@@ -202,7 +202,7 @@ public class CrucibleBlockEntity extends BlockEntity implements NamedScreenHandl
             inventory.setStack(i, entity.getStack(i));
         }
 
-        boolean isInRecipe = entity.getRecipeMap().containsKey(entity.getStack(0).getItem());
+        boolean isInRecipe = entity.RecipeMap().containsKey(entity.getStack(0).getItem());
 
         return isInRecipe && canInsertAmountIntoOutputSlot(inventory, 1) && canInsertItemIntoOutputSlot(inventory,entity.getStack(1).getItem());
     }
