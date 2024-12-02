@@ -43,7 +43,7 @@ public class CrucibleScreen extends HandledScreen<CrucibleScreenHandler> {
     }
 
     private void renderFuelTime(MatrixStack matrices, int x, int y) {
-        drawTexture(matrices, x + 57, y + 50 - handler.getScaledFuelTime(), 176, 0, 14, handler.getScaledFuelTime());
+        drawTexture(matrices, x + 57, y + 50 - handler.getScaledFuelTime(), 176, 14 - handler.getScaledFuelTime(), 14, handler.getScaledFuelTime());
     }
 
     @Override
