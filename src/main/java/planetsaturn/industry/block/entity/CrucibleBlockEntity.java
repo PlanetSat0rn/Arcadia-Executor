@@ -40,7 +40,7 @@ public class CrucibleBlockEntity extends BlockEntity implements NamedScreenHandl
     private int speedup = 0;
     private int speedupProgress = 0;
     private int maxSpeedupProgress = 100;
-    private int maxFuelTime = 0;
+    private int maxFuelTime = 1200;
     private int maxSpeedup = 20;
 
     private HashMap<Item, Item> RecipeMap() {
