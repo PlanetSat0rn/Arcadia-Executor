@@ -39,7 +39,7 @@ public class CrucibleScreen extends HandledScreen<CrucibleScreenHandler> {
     }
 
     private void renderSpeedupProgressArrow(MatrixStack matrices, int x, int y) {
-            drawTexture(matrices, x + 45, y + 70 - handler.getScaledSpeedupProgress(), 176, 31, 5, handler.getScaledSpeedupProgress());
+            drawTexture(matrices, x + 45, y + 70 - handler.getScaledSpeedupProgress(), 176, 31, 5, handler.getScaledSpeedupProgress() + 1);
     }
 
     private void renderFuelTime(MatrixStack matrices, int x, int y) {

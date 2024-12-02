@@ -4,8 +4,8 @@
   "item.saturnindustry.lithium": "Lithium",
   "item.saturnindustry.wrench": "Wrench",
 
-  "itemGroup.saturnindustry.industry_group": "Saturn Industry Items",
-  "itemGroup.saturnindustry.industry_block_group": "Saturn Industry Blocks",
+  "itemGroup.saturnindustry.industry_group": "SatIndustry Items",
+  "itemGroup.saturnindustry.industry_block_group": "SatIndustry Blocks",
 
   "block.saturnindustry.plasteel_block": "Block of Plasteel",
   "block.saturnindustry.blank_mechanism": "Blank Mechanism",

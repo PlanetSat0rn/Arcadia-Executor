@@ -1,16 +1,10 @@
 package planetsaturn.industry.block.entity;
 
-import com.mojang.authlib.exceptions.MinecraftClientException;
-import com.mojang.authlib.minecraft.client.MinecraftClient;
-import net.fabricmc.fabric.api.registry.FuelRegistry;
-import net.fabricmc.fabric.impl.biome.modification.BuiltInRegistryKeys;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,16 +17,18 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.tag.TagKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import planetsaturn.industry.Item.ModItems;
 import planetsaturn.industry.SaturnIndustry;
 import planetsaturn.industry.screen.CrucibleScreenHandler;
+
+import java.util.AbstractMap;
+import java.util.HashMap;
+import java.util.Hashtable;
 
 public class CrucibleBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> Inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
@@ -47,8 +43,23 @@ public class CrucibleBlockEntity extends BlockEntity implements NamedScreenHandl
     private int maxFuelTime = 0;
     private int maxSpeedup = 20;
 
+    private HashMap<Item, Item> getRecipeMap() {
+        return new HashMap<Item, Item>() {
+            {
+                put(Items.RAW_IRON, Items.IRON_INGOT);
+                put(Items.RAW_COPPER, Items.COPPER_INGOT);
+                put(Items.RAW_GOLD, Items.GOLD_INGOT);
+                put(Items.ANCIENT_DEBRIS, Items.NETHERITE_SCRAP);
+                put(ModItems.PLASTEEL_MIXTURE, ModItems.PLASTEEL);
+            }
+        };
+    }
+
+
+
     public CrucibleBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.CRUCIBLE, pos, state);
+
         this.propertyDelegate = new PropertyDelegate() {
             public int get(int index) {
                 switch (index) {
@@ -179,20 +190,8 @@ public class CrucibleBlockEntity extends BlockEntity implements NamedScreenHandl
         if(hasRecipe(entity)) {
             int count = entity.getStack(1).getCount();
             Item item = entity.getStack(0).getItem();
-            Item output = ModItems.WRENCH;
             entity.removeStack(0,1);
-            if (item == Items.RAW_COPPER) {
-                output = Items.COPPER_INGOT;
-            } else if (item == Items.RAW_IRON) {
-                output = Items.IRON_INGOT;
-            } else if (item == Items.ANCIENT_DEBRIS) {
-                output = Items.NETHERITE_SCRAP;
-            } else if (item == Items.RAW_GOLD) {
-                output = Items.GOLD_INGOT;
-            } else if (item == ModItems.PLASTEEL_MIXTURE) {
-                output = ModItems.PLASTEEL;
-            }
-            entity.setStack(1,new ItemStack(output, count+1));
+            entity.setStack(1,new ItemStack(entity.getRecipeMap().get(item), count+1));
             entity.resetProgress(entity);
         }
     }
@@ -203,9 +202,9 @@ public class CrucibleBlockEntity extends BlockEntity implements NamedScreenHandl
             inventory.setStack(i, entity.getStack(i));
         }
 
-        boolean hasRawMetalInFirstSlot = entity.getStack(0).isIn(TagKey.of(Registry.ITEM_KEY, new Identifier(SaturnIndustry.MOD_ID, "rawmetals")));
+        boolean isInRecipe = entity.getRecipeMap().containsKey(entity.getStack(0).getItem());
 
-        return hasRawMetalInFirstSlot && canInsertAmountIntoOutputSlot(inventory, 1) && canInsertItemIntoOutputSlot(inventory,entity.getStack(1).getItem());
+        return isInRecipe && canInsertAmountIntoOutputSlot(inventory, 1) && canInsertItemIntoOutputSlot(inventory,entity.getStack(1).getItem());
     }
 
     private static boolean canInsertAmountIntoOutputSlot(SimpleInventory inventory, Integer count) {
