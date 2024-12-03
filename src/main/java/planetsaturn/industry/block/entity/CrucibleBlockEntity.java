@@ -1,15 +1,21 @@
 package planetsaturn.industry.block.entity;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.recipe.AbstractCookingRecipe;
+import net.minecraft.recipe.Recipe;
+import net.minecraft.recipe.RecipeManager;
+import net.minecraft.recipe.RecipeMatcher;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -29,6 +35,8 @@ import planetsaturn.industry.screen.CrucibleScreenHandler;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Hashtable;
+
+import static net.minecraft.block.entity.AbstractFurnaceBlockEntity.createFuelTimeMap;
 
 public class CrucibleBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> Inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
@@ -94,6 +102,19 @@ public class CrucibleBlockEntity extends BlockEntity implements NamedScreenHandl
         };
     }
 
+    protected int getFuelTime(ItemStack fuel) {
+        if (fuel.isEmpty()) {
+            return 0;
+        } else {
+            Item item = fuel.getItem();
+            return (Integer)createFuelTimeMap().getOrDefault(item, 0);
+        }
+    }
+
+    public static boolean canUseAsFuel(ItemStack stack) {
+        return createFuelTimeMap().containsKey(stack.getItem());
+    }
+
     @Override
     public DefaultedList<ItemStack> getItems() {
         return this.Inventory;
@@ -117,6 +138,7 @@ public class CrucibleBlockEntity extends BlockEntity implements NamedScreenHandl
         nbt.putInt("crucible.fueltime", fuelTime);
         nbt.putInt("crucible.speedup", speedup);
         nbt.putInt("crucible.speedupprogress", speedupProgress);
+        nbt.putInt("crucible.maxfueltime", maxFuelTime);
     }
 
     @Override
@@ -125,6 +147,7 @@ public class CrucibleBlockEntity extends BlockEntity implements NamedScreenHandl
         Inventories.readNbt(nbt, Inventory);
         progress = nbt.getInt("crucible.progress");
         fuelTime = nbt.getInt("crucible.fueltime");
+        maxFuelTime = nbt.getInt("crucible.maxfueltime");
         speedup = nbt.getInt("crucible.speedup");
         speedupProgress = nbt.getInt("crucible.speedupprogress");
     }
@@ -136,6 +159,7 @@ public class CrucibleBlockEntity extends BlockEntity implements NamedScreenHandl
         world.getServer().sendMessage(Text.of(String.valueOf(entity.speedupProgress) + " " + String.valueOf(entity.speedup) + " " + String.valueOf(entity.progress) + " " + String.valueOf(entity.fuelTime)));
 
         if (entity.fuelTime >= 1) {
+            entity.getWorld().setBlockState(blockPos,state.with(Properties.LIT, true));
             entity.fuelTime -= 1;
             entity.speedupProgress += 1;
             if (entity.speedupProgress >= entity.maxSpeedupProgress) {
@@ -146,10 +170,17 @@ public class CrucibleBlockEntity extends BlockEntity implements NamedScreenHandl
             }
 
             } else {
-            if (entity.getStack(2).getItem() == Items.LAVA_BUCKET) {
-                entity.fuelTime = 1200;
-                entity.setStack(2,new ItemStack(Items.BUCKET));
+            if (canUseAsFuel(entity.getStack(2))) {
+                entity.fuelTime = entity.getFuelTime((entity.getStack(2)));
+                entity.maxFuelTime = entity.getFuelTime((entity.getStack(2)));
+                if (entity.getStack(2).getItem() == Items.LAVA_BUCKET) {
+                    entity.setStack(2,new ItemStack(Items.BUCKET));
+                } else {
+                    entity.removeStack(2,1);
+                }
+
             }
+            entity.getWorld().setBlockState(blockPos,state.with(Properties.LIT, false));
             entity.speedupProgress -= 1;
                 if (entity.speedupProgress <= 0) {
                     entity.speedupProgress = entity.maxSpeedupProgress;
@@ -163,10 +194,7 @@ public class CrucibleBlockEntity extends BlockEntity implements NamedScreenHandl
             entity.progress += entity.speedup;
             markDirty(world,blockPos,state);
             if (entity.fuelTime == 0) {
-                entity.getWorld().setBlockState(entity.pos,entity.getWorld().getBlockState(entity.pos).with(Properties.LIT, false));
                 entity.resetProgress(entity);
-            } else {
-                entity.getWorld().setBlockState(entity.pos,entity.getWorld().getBlockState(entity.pos).with(Properties.LIT, true));
             }
             if (entity.progress >= entity.maxProgress) {
                 craftItem(entity);

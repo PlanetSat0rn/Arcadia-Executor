@@ -4,7 +4,10 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -27,7 +30,7 @@ public class CrucibleBlock extends BlockWithEntity implements BlockEntityProvide
 
     public CrucibleBlock(Settings settings) {
         super(settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(HORIZONTAL_FACING, Direction.NORTH).with(LIT, Boolean.valueOf(false)));
+        this.setDefaultState(this.stateManager.getDefaultState().with(LIT, Boolean.valueOf(false)));
     }
 
     @Override
@@ -35,6 +38,9 @@ public class CrucibleBlock extends BlockWithEntity implements BlockEntityProvide
         builder.add(HORIZONTAL_FACING, LIT);
     }
 
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
+        return this.getDefaultState().with(HORIZONTAL_FACING, ctx.getPlayerFacing().getOpposite());
+    }
 
     // BLOCK_ENTITY
 
